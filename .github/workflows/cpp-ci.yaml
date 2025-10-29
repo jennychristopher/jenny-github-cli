@@ -1,0 +1,39 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:   # allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout your code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install build tools
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake g++ ninja-build
+
+      # Step 3: Configure the project
+      - name: Configure with CMake
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      # Step 4: Build the project
+      - name: Build
+        run: cmake --build build
+
+      # Step 5: Run tests
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure
+
