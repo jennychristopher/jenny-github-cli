@@ -2,9 +2,9 @@ name: C++ CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "ci-gtest" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "ci-gtest" ]
   workflow_dispatch:   # allows manual trigger
 
 jobs:

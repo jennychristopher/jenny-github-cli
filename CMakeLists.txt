@@ -12,11 +12,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
-# Main executable
-add_executable(my_app src/main.cpp)
+
+add_library(myLib src/muladd.h src/muladd.cpp)
+add_executable(myexe src/main.cpp)
+target_link_libraries(myexe myLib)
 
 add_executable(my_test tests/test_main.cpp)
-target_link_libraries(my_test gtest_main gmock_main)
+target_link_libraries(my_test myLib gtest_main gmock_main)
 
 include(GoogleTest)
 gtest_discover_tests(my_test)
