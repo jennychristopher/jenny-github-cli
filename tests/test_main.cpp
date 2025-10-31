@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 
 // Forward declare the functions from main.cpp
-int add(int a, int b);
-int multiply(int a, int b);
+//int add(int a, int b);
+//int mul(int a, int b);
+#include "../src/muladd.h"
 
 // Test cases
 TEST(MathTests, AddTest) {
@@ -11,10 +12,10 @@ TEST(MathTests, AddTest) {
     EXPECT_EQ(add(0, 0), 0);
 }
 
-TEST(MathTests, MultiplyTest) {
-    EXPECT_EQ(multiply(2, 3), 6);
-    EXPECT_EQ(multiply(-2, 3), -6);
-    EXPECT_EQ(multiply(0, 5), 0);
+TEST(MathTests, MulTest) {
+    EXPECT_EQ(mul(2, 3), 6);
+    EXPECT_EQ(mul(-2, 3), -6);
+    EXPECT_EQ(mul(0, 5), 0);
 }
 
 // Standard GTest entry point
