@@ -1,4 +1,4 @@
-# Add Pytest for addmul custom model - newop
+# Add Pytest for addmul custom model 
 import math
 from addmul_model.addmul_model import addmul
 
