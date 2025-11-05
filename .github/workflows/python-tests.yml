@@ -92,10 +92,10 @@ jobs:
       - name: Check file changes
         run: |
           git fetch --depth=2 
-          if git diff --name-only HEAD~1 HEAD | grep "^addmul_model";then
+          if git diff --name-only HEAD~1 HEAD | grep "{{ matrix.project }}";then
             echo "Workflows file modified"
-            export PYTHONPATH=$PYTHONPATH:$(pwd)/addmul_model/tests/
-            pytest -v
+            export PYTHONPATH=.
+            pytest -m addcmul
             exit 0
           fi
             
