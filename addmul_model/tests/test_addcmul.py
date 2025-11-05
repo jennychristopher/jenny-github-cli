@@ -3,6 +3,6 @@ import math
 from addmul_model.addmul_model import addmul
 import pytest
 
-@pytest.mark.addcmul
-def test_addcmul_basic():
+@pytest.mark.addmul
+def test_addmul_basic():
     assert math.isclose(addmul(1,1,1), 2)

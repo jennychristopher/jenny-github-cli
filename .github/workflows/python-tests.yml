@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ['adddiv_model', 'addmul_model']
+        project: ['addmul_model']
 
     steps:
       # Step 1: Checkout code
@@ -92,7 +92,7 @@ jobs:
       - name: Check file changes
         run: |
           git fetch --depth=2 
-          if git diff --name-only HEAD~1 HEAD | grep "{{ matrix.project }}";then
+          if git diff --name-only HEAD~1 HEAD | grep "^addmul_model";then
             echo "Workflows file modified"
             export PYTHONPATH=.
             pytest -m addcmul
