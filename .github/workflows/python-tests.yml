@@ -89,9 +89,6 @@ jobs:
       - name: Skip if no changes for this project
         run: |
           git fetch --depth=2 
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "^addmul_model/"; then
-            echo "Files inside this folder is changed"
-          else
-            echo "Files inside this folder is not changed"
-          fi
+          git diff --name-only HEAD~1 HEAD
+            
            
