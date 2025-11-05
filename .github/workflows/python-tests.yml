@@ -93,5 +93,7 @@ jobs:
             exit 0
           fi
 
-      - run: pytest ${{ matrix.project }}/tests
+      - run: |
+          export PYTHONPATH=.
+          pytest ${{ matrix.project }}/tests
  
