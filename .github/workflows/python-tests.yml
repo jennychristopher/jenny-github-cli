@@ -84,11 +84,10 @@ jobs:
           pip install -r requirements.txt
 
       # Step 4: Pytest
-      - uses: actions/checkout@v3
-      - with: 
-          fetch-depth: 0 
-
-      - name: Skip if no changes for this project
+      - name: Pytest
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
         run: |
           git fetch --depth=2 
           git diff --name-only HEAD~1 HEAD
