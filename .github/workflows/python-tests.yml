@@ -84,10 +84,12 @@ jobs:
           pip install -r requirements.txt
 
       # Step 4: Pytest
-      - name: Pytest
+      - name: Checkout repository
         uses: actions/checkout@v3
         with: 
           fetch-depth: 0
+        
+      - name: Check file changes
         run: |
           git fetch --depth=2 
           git diff --name-only HEAD~1 HEAD
