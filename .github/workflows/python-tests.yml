@@ -1,52 +1,80 @@
-name: Python CI with cache pip
+# name: Python CI with cache pip
+
+# on:
+#   push:
+#     branches: [ "main", "ci-pytest"]
+#   pull_request:
+#     branches: [ "main","ci-pytest"]
+#   workflow_dispatch:  # Allows manual trigger from CLI or UI
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: 
+#         label: [activation]
+
+#     steps:
+#       # Step 1: Checkout code
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       # Step 2: Set up Python
+#       - name: Set up Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.10"
+       
+#       # Step 3: Cache pip dependencies   
+#       - name: Get pip cache directory
+#         id: pip-cache
+#         run: echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
+
+#       - name: Cache pip dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ${{ steps.pip-cache.outputs.dir }}
+#           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
+
+#       # Step 4: Install dependencies
+#       - name: Install dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
+
+#       # Step 5: Run pytest
+#       - name: Run tests with pytest
+#         run: |
+#           export PYTHONPATH=.
+#           pytest -m ${{ matrix.label }}
+
+name: Separate model testing
 
 on:
   push:
-    branches: [ "main", "ci-pytest"]
+    branches: [ "specfic-model-test"]
   pull_request:
-    branches: [ "main","ci-pytest"]
-  workflow_dispatch:  # Allows manual trigger from CLI or UI
+    branches: [ "specfic-model-test"]
+
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
-        label: [activation]
+      matrix:
+        project: ['adddiv_model', 'addmul_model']
 
     steps:
-      # Step 1: Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-       
-      # Step 3: Cache pip dependencies   
-      - name: Get pip cache directory
-        id: pip-cache
-        run: echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      # Step 4: Install dependencies
-      - name: Install dependencies
+      - name: Skip if no changes for this project
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if ! git diff --name-only HEAD~1 HEAD | grep "${{ matrix.project }}/"; then
+            echo "Skipping ${{ matrix.project }}"
+            exit 0
+          fi
 
-      # Step 5: Run pytest
-      - name: Run tests with pytest
-        run: |
-          export PYTHONPATH=.
-          pytest -m ${{ matrix.label }}
-
+      - run: pytest ${{ matrix.project }}/tests
+ 
