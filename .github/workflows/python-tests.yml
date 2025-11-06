@@ -111,25 +111,3 @@ jobs:
           
           for item in "${arr[@]}"; do
             [ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
-            
-          #   # Search for dependency folder changes as well
-          #   # 1. Search for test files under tests/ that import specific model
-
-          #   test_files=$(grep -Rl "import $item" */tests/)
-
-          #   if [ -z "$test_files" ]; then
-          #     echo "No test files imported"
-          #     continue
-          #   else
-          #     # 3. Print the collected test files
-          #     echo "Test files that import addcmul_model:"
-          #     echo "$test_files"
-          #     # 4. Run pytest only on the collected files
-          #     pytest $test_files
-          #     if [ $? -ne 0 ]; then
-          #       echo "Tests failed for $item"
-          #       exit 1
-          #     fi
-          #   fi
-          # done
-          # exit 0
