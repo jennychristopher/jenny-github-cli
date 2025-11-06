@@ -117,10 +117,13 @@ jobs:
 
             test_files=$(grep -Rl "import $item" */tests/)
 
-            # 3. Print the collected test files
-            echo "Test files that import addcmul_model:"
-            echo "$test_files"
-
-            # 4. Run pytest only on the collected files
-            pytest $test_files
+            if [ -z "$test_files" ]; then
+              echo "No test files imported"
+            else
+              # 3. Print the collected test files
+              echo "Test files that import addcmul_model:"
+              echo "$test_files"
+              # 4. Run pytest only on the collected files
+              pytest $test_files
+            fi
           done
