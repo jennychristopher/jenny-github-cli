@@ -109,6 +109,5 @@ jobs:
           IFS=',' read -r -a arr <<< "$new_list"
           
           for item in "${arr[@]}"; do
-          echo "Items present: $item"
             [ -n "$item" ] && echo "Running pytest -m $item" && pytest -m "$item"
           done
