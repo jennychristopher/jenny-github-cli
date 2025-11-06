@@ -98,15 +98,17 @@ jobs:
               if [ -z "$new_list" ]; then
                 new_list="$item"
               else
-                new_list="$new_list,$item"
-              echo "Workflows file modified: $item"
+                new_list="$new_list,$item"              
               fi
+              echo "Workflows file modified: $item"
             fi
           done
           export PYTHONPATH=.
+
           # Convert string to array
           IFS=',' read -r -a arr <<< "$new_list"
-          for item in "${new_list[@]}"; do
-            echo "$item"
-            pytest -m "${item}"
+          
+          for item in "${arr[@]}"; do
+          echo "Items present: $item"
+            [ -n "$item" ] && echo "Running pytest -m $item" && pytest -m "$item"
           done
