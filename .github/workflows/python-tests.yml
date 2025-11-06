@@ -93,7 +93,7 @@ jobs:
         run: |
           my_list=("addmul_model" "adddiv_model")
           new_list=""
-          git fetch origin main --depth=2 
+          git fetch origin/main HEAD --depth=2 
           for item in "${my_list[@]}"; do
             if git diff --name-only main HEAD | grep "$item";then
               new_list="$new_list,$item"
