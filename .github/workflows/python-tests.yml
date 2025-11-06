@@ -117,12 +117,6 @@ jobs:
 
             test_files=$(grep -Rl "import $item" */tests/)
 
-            # 2. If no files are found, exit or skip
-            if [ -z "$test_files" ]; then
-              echo "No test files available"
-              exit 0
-            fi
-
             # 3. Print the collected test files
             echo "Test files that import addcmul_model:"
             echo "$test_files"
