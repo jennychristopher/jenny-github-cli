@@ -91,7 +91,7 @@ jobs:
         
       - name: Check file changes
         run: |
-          my_list=("addmul_model" "adddiv_model")
+          my_list=("addmul_model" "adddiv_model" "compound_model")
           git fetch origin main #--depth=2
           for item in "${my_list[@]}"; do
             if git diff --name-only origin/main HEAD | grep "$item";then
@@ -111,4 +111,22 @@ jobs:
           
           for item in "${arr[@]}"; do
             [ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
+            
+            # Search for dependency folder changes as well
+            # 1. Search for test files under tests/ that import specific model
+
+            test_files=$(grep -Rl "import $item" */tests/)
+
+            # 2. If no files are found, exit or skip
+            if [ -z "$test_files" ]; then
+              echo "No test files available"
+              exit 0
+            fi
+
+            # 3. Print the collected test files
+            echo "Test files that import addcmul_model:"
+            echo "$test_files"
+
+            # 4. Run pytest only on the collected files
+            pytest $test_files
           done
