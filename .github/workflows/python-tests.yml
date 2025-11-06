@@ -98,7 +98,6 @@ jobs:
             if git diff --name-only origin/main HEAD | grep "$item";then
               new_list="$new_list,$item"
               echo "Workflows file modified: $item"
-              exit 0
             fi
           done
           export PYTHONPATH=.
