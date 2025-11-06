@@ -103,9 +103,8 @@ jobs:
               echo "Workflows file modified: $item"
             fi
           done
-          #export PYTHONPATH=.
+
           export PYTHONPATH=$(pwd)
-          echo "PYTHONPATH: $PYTHONPATH"
           echo "PYTHONPATH: $(pwd)"
           # Convert string to array
           IFS=',' read -r -a arr <<< "$new_list"
