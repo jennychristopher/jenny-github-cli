@@ -104,6 +104,8 @@ jobs:
             fi
           done
           export PYTHONPATH=.
+          # Convert string to array
+          IFS=',' read -r -a arr <<< "$new_list"
           for item in "${new_list[@]}"; do
             echo "$item"
             pytest -m "${item}"
