@@ -106,7 +106,7 @@ jobs:
           done
           #export PYTHONPATH=.
           export PYTHONPATH=$HOME_DIR
-
+          echo "PYTHONPATH: $PYTHONPATH"
           # Convert string to array
           IFS=',' read -r -a arr <<< "$new_list"
           
