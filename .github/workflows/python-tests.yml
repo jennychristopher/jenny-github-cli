@@ -111,7 +111,7 @@ jobs:
           
           for item in "${arr[@]}"; do
             [ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
-            extracted_name = "${item%_model}"
+            extracted_name="${item%_model}"
             test_files=$(grep -Rl "import $extracted_name" */tests)
             pytest $test_files
           done
