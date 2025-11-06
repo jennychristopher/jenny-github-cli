@@ -111,3 +111,4 @@ jobs:
           
           for item in "${arr[@]}"; do
             [ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
+          done
