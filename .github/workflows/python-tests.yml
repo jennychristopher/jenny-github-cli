@@ -91,6 +91,7 @@ jobs:
         
       - name: Check file changes
         run: |
+          echo "HOME_DIR=$(pwd)" >> $GITHUB_ENV
           my_list=("addmul_model" "adddiv_model")
           git fetch origin main --depth=2
           for item in "${my_list[@]}"; do
@@ -103,11 +104,12 @@ jobs:
               echo "Workflows file modified: $item"
             fi
           done
-          export PYTHONPATH=.
+          #export PYTHONPATH=.
+          export PYTHONPATH=$HOME_DIR
 
           # Convert string to array
           IFS=',' read -r -a arr <<< "$new_list"
           
           for item in "${arr[@]}"; do
-            [ -n "$item" ] && echo "Running pytest -m $item" && pytest -m "$item"
+            [ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
           done
