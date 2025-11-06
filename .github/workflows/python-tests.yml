@@ -95,12 +95,14 @@ jobs:
           new_list=""
           git fetch --depth=2 
           for item in "${my_list[@]}"; do
-            if git diff --name-only main HEAD | grep ${{ item }};then
+            if git diff --name-only main HEAD | grep "$item";then
               new_list="$new_list,$item"
               echo "Workflows file modified: $item"
               pytest -m addmul
               exit 0
             fi
+          done
           export PYTHONPATH=.
           for item in "${new_list[@]}"; do
             pytest -m "${item}"
+          done
