@@ -113,5 +113,5 @@ jobs:
             #[ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
             extracted_name="${item%_model}"
             test_files=$(grep -Rl "$extracted_name" */tests)
-            pytest $test_files
+            pytest -p no:cacheprovider $test_files
           done
