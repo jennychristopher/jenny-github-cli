@@ -91,6 +91,7 @@ jobs:
         
       - name: Check file changes
         run: |
+          echo $GITHUB_REF_NAME
           my_list=("addcmul_model" "addcdiv_model" "compound_model")
           git fetch origin main #--depth=2
           for item in "${my_list[@]}"; do
