@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ['adddiv_model', 'addmul_model']
+        project: ['addmul_model']
 
     steps:
       # Step 1: Checkout code
@@ -84,16 +84,34 @@ jobs:
           pip install -r requirements.txt
 
       # Step 4: Pytest
-      - uses: actions/checkout@v3
-
-      - name: Skip if no changes for this project
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+        
+      - name: Check file changes
         run: |
-          if ! git diff --name-only HEAD~1 HEAD | grep "${{ matrix.project }}/"; then
-            echo "Skipping ${{ matrix.project }}"
-            exit 0
-          fi
+          my_list=("addcmul_model" "addcdiv_model" "compound_model")
+          git fetch origin main #--depth=2
+          for item in "${my_list[@]}"; do
+            if git diff --name-only origin/main HEAD | grep "$item";then
+              if [ -z "$new_list" ]; then
+                new_list="$item"
+              else
+                new_list="$new_list,$item"              
+              fi
+              echo "Workflows file modified: $item"
+            fi
+          done
 
-      - run: |
-          export PYTHONPATH=.
-          pytest ${{ matrix.project }}/tests
- 
+          export PYTHONPATH=$(pwd)
+          echo "PYTHONPATH: $(pwd)"
+          # Convert string to array
+          IFS=',' read -r -a arr <<< "$new_list"
+          
+          for item in "${arr[@]}"; do
+            #[ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
+            extracted_name="${item%_model}"
+            test_files=$(grep -Rl "$extracted_name" */tests)
+            pytest $test_files
+          done
