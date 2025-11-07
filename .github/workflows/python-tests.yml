@@ -54,9 +54,9 @@ name: Separate model testing
 
 on:
   push:
-    branches: [ "specfic-model-test"]
+    branches: [ "main"]
   pull_request:
-    branches: [ "specfic-model-test"]
+    branches: [ "main"]
 
 
 jobs:
