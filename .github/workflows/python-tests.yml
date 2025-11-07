@@ -91,17 +91,29 @@ jobs:
         
       - name: Check file changes
         run: |
-          echo $GITHUB_REF_NAME
+          echo "BRANCH NAME: $GITHUB_REF_NAME          
+             
           my_list=("addcmul_model" "addcdiv_model" "compound_model")
           git fetch origin main #--depth=2
           for item in "${my_list[@]}"; do
-            if git diff --name-only origin/main HEAD | grep "$item";then
-              if [ -z "$new_list" ]; then
-                new_list="$item"
-              else
-                new_list="$new_list,$item"              
+            if {{ $github.ref_name != 'main' || $github.head_ref != 'main' }};then
+              if git diff --name-only origin/main HEAD | grep "$item";then
+                if [ -z "$new_list" ]; then
+                  new_list="$item"
+                else
+                  new_list="$new_list,$item"              
+                fi
+                echo "Workflows file modified: $item"
               fi
-              echo "Workflows file modified: $item"
+            else
+              if git diff --name-only origin/main HEAD | grep "$item";then
+                if [ -z "$new_list" ]; then
+                  new_list="$item"
+                else
+                  new_list="$new_list,$item"              
+                fi
+                echo "Workflows file modified: $item"
+              fi              
             fi
           done
 
