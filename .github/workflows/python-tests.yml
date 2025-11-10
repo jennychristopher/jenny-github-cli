@@ -106,7 +106,7 @@ jobs:
                 echo "Workflows file modified: $item"
               fi
             else
-              if git diff --name-only main@{1} main | grep "$item"; then
+              if git diff --name-only main@{1} main@{0} | grep "$item"; then
                 if [ -z "$new_list" ]; then
                   new_list="$item"
                 else
@@ -124,7 +124,7 @@ jobs:
           
           for item in "${arr[@]}"; do
             #[ -n "$item" ] && echo "Running pytest on modified workflows" && pytest $item/tests -v
-            extracted_name="${item%_model}"
-            test_files=$(grep -Rl "$extracted_name" */tests)
+            extracted_name="${item%_model}"  #  If item is "addcdiv_model" , output will be just addcdiv
+            test_files=$(grep -Rl "$extracted_name" */tests) # If extracted_name is just "compound", then it will run testcases wherever "compound" keyword is present
             PYTHONDONTWRITEBYTECODE=1 pytest -p no:cacheprovider $test_files
           done
