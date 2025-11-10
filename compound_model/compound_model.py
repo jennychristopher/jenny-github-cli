@@ -1,3 +1,4 @@
+# Compound operator implementation
 from addcmul_model.addcmul_model import addcmul
 from addcdiv_model.addcdiv_model import addcdiv
 
