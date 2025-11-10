@@ -1,4 +1,4 @@
-# Pytest file for testing addcmul op
+# Pytest file for testing addcmul
 import math
 from addcmul_model.addcmul_model import addcmul
 
