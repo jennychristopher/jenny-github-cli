@@ -1,4 +1,4 @@
-# Pytest for testing compound op
+# Pytest for testing compound operator
 import math
 from compound_model.compound_model import compound_model
 def test_compound_model():

@@ -113,8 +113,7 @@ jobs:
               git fetch origin main --no-tags
               LATEST=$(git rev-parse origin/main)
               PREV=$(git rev-parse "${LATEST}^")
-              #if git diff --name-only $PREV $LATEST | grep "$item"; then
-              if git diff --name-only main@{1} main@{0} | grep "$item"; then
+              if git diff --name-only $PREV $LATEST | grep "$item"; then
                 echo "Checking changes in main (previous vs current)..."
                 if [ -z "$new_list" ]; then
                   new_list="$item"
