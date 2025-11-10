@@ -1,4 +1,4 @@
-# Pytest file for testing addcdiv
+# Pytest file for testing addcdiv op
 import math
 from addcdiv_model.addcdiv_model import addcdiv
 from compound_model.compound_model import compound_model
